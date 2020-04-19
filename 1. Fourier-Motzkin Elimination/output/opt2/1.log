@@ -1,0 +1,31 @@
+Furie-Mockin method of elimination
+--------------------------------------------------
+
+Select one of the possible opions:
+	(1) Calculate intervals (input: matrix A, vector b)
+	(2) Check if a vertex is in solution (input: matrix A, vector b, vertex x
+	(3) Furie-Mockin method of elimination (input: vector c, matrix A, vector b)
+Option: ---- NOTE ----
+The file must be in the following format:
+N M			Where N - number of equations and M - number of variables
+A11 A12 ... A1M
+A21 A22 ... A2M
+................
+AN1 AN2 ... ANM
+b1 b2 b3 ... bN
+x1 x2 x3 ... xM
+--------------------------------------------------
+
+Enter the file name: --------------------------------------------------
+
+Input:
+A:
+ [[ 7.  2. -2.]
+ [-1. -1. -1.]
+ [-2.  3.  1.]
+ [ 5. -1.  1.]]
+b:  [ 4. -4.  1. -2.]
+x:  [-1.  1.  1.]
+--------------------------------------------------
+
+Given point is not a solution!
