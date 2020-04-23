@@ -244,7 +244,7 @@ def is_not_canonical(A, b):
     return False
 
 
-def set_unit_matrix(A, b, c):
+def set_canonical_matrix(A, b, c):
     # Setting the seed for the random number generator
     seed(1337)
     # n - number of rows of A
@@ -547,7 +547,7 @@ def main():
     # Q - other column indexes
     # Fo - base value of F where F = Fo + c*x
     # x - solution
-    P, Q, Fo = set_unit_matrix(A, b, c)
+    P, Q, Fo = set_canonical_matrix(A, b, c)
 
     print("Set unit matrix:")
     print_current(A, b, c)

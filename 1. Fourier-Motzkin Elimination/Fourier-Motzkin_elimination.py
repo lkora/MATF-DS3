@@ -365,7 +365,10 @@ def main():
             print("Solution: ", interval[0])
         else:
             print("The solution doesn't exist!\n")
-
+    
+    else:
+        print("Enter a valid option!")
+        return -1
 
 if __name__ == '__main__':
    main()

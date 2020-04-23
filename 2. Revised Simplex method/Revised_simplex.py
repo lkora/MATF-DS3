@@ -46,31 +46,31 @@ def input_vars():
     option = 0
     while option != 1 or option != 2:
         if option == 1:
-            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tGoal function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n\t\t\t\tWhere '_' should be '<', '>' or '='\n")
+            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n\t\t\t\tWhere '_' should be '<', '>' or '='\n")
             print_split()
 
             n = int(input("Input the number of equations: "))
             m = int(input("Input the number of variables: "))
 
-            # Reserving and initializing space for the goal function
+            # Reserving and initializing space for the Objective function
             in_c = np.empty(m)
             # Reserving and initializing space for the coeficients
             in_A = np.empty((n, m))
             # Reserving and initializing space for the solution values
             in_b = np.empty(n)
 
-            gtype = input("Input \"min\" or \"max\" for the goal function: ")
-            if gtype != "min" and gtype != "max":
-                raise Exception("The goal function type is wrong it should be either \"min\" or \"max\"!\n")
+            otype = input("Input \"min\" or \"max\" for the Objective function: ")
+            if otype != "min" and otype != "max":
+                raise Exception("The Objective function type is wrong it should be either \"min\" or \"max\"!\n")
 
-            # Input the goal function
-            tmp = input("Goal function: ").split()
+            # Input the Objective function
+            tmp = input("Objective function: ").split()
             i = 0
             for c in tmp:
                 in_c[i] = float(c)
                 i += 1
-            # Converting the goal function to minimise since the program is made with minimisation
-            if gtype == "max":
+            # Converting the Objective function to minimise since the program is made with minimisation
+            if otype == "max":
                 print("Converting max to min.")
                 in_c *= -1
 
@@ -110,7 +110,7 @@ def input_vars():
                         break
                 in_A = np.c_[in_A, tmp]
 
-                # Append 0 to the goal function to make it the right dimension
+                # Append 0 to the Objective function to make it the right dimension
                 in_c = np.append(in_c, 0)
 
             print_split()
@@ -120,7 +120,7 @@ def input_vars():
         elif option == 2:
             print("---- NOTE ----\nEnter the relative path to the file, from under \"/examples/\" \ne.g. For file 1.txt, write \"1.txt\", that will load \"/examples/1.txt\"")
             print_split()
-            print("---- NOTE ----\nThe file must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tGoal function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n\t\t\t\tWhere '_' should be '<', '>' or '='\n")
+            print("---- NOTE ----\nThe file must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n\t\t\t\tWhere '_' should be '<', '>' or '='\n")
             print_split()
             print_split()
             print_split()
@@ -144,16 +144,16 @@ def input_vars():
                 if i == 0:
                     n, m = [int(x) for x in next(f).split()]    # Reads the dimensions
                 if i == 1:
-                    gtype = next(f).split()
-                    gtype = gtype[0]
-                    if gtype != "min" and gtype != "max":
+                    otype = next(f).split()
+                    otype = otype[0]
+                    if otype != "min" and otype != "max":
                         f.close()
-                        raise Exception("The goal function type is wrong it should be either \"min\" or \"max\"!\n")
+                        raise Exception("The Objective function type is wrong it should be either \"min\" or \"max\"!\n")
                 if i == 2:
-                    in_c = np.append(in_c, [float(x) for x in next(f).split()])     # Reads the goal functiom
+                    in_c = np.append(in_c, [float(x) for x in next(f).split()])     # Reads the Objective functiom
             
-            # Converting the goal function to minimise since the program is made with minimisation
-            if gtype == "max":
+            # Converting the Objective function to minimise since the program is made with minimisation
+            if otype == "max":
                 print("Converting max to min.")
                 in_c *= -1
 
@@ -207,7 +207,7 @@ def input_vars():
                         break
                 in_A = np.c_[in_A, tmp]
 
-                # Append 0 to the goal function to make it the right dimension
+                # Append 0 to the Objective function to make it the right dimension
                 in_c = np.append(in_c, 0)
 
             break
@@ -244,7 +244,7 @@ def is_not_canonical(A, b):
     return False
 
 
-def set_unit_matrix(A, b, c):
+def set_canonical_matrix(A, b, c):
     # Setting the seed for the random number generator
     seed(1337)
     # n - number of rows of A
@@ -520,7 +520,7 @@ def main():
     # Q - other column indexes
     # Fo - base value of F where F = Fo + c*x
     # x - solution
-    P, Q, Fo = set_unit_matrix(A, b, c)
+    P, Q, Fo = set_canonical_matrix(A, b, c)
 
     print("Set unit matrix:")
     print_current(A, b, c)
