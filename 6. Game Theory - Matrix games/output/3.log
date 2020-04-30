@@ -1,0 +1,56 @@
+Select the type of input:
+	1: Manual input
+	2: Input from file
+Selected: --------------------------------------------------
+
+---- NOTE ----
+Enter the relative path to the file, from under "/examples/" 
+e.g. For file 1.txt, write "1.txt", that will load "/examples/1.txt"
+--------------------------------------------------
+
+---- NOTE ----
+The file must be in the following format:
+N M				Where N - number of rows and M - number of columns
+A11 A12 ... A1M
+A21 A22 ... A2M
+.............
+AN1 AN2 ... ANM
+--------------------------------------------------
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+Enter the file name: Initial game matrix problem:
+ [[ 1. -1. -1.]
+ [-1. -1.  3.]
+ [-1. -2. -1.]]
+Game matrix after removing the dominated rows and columns:
+ [[-1.]]
+--------------------------------------------------
+
+I problem:
+(min) -v = (max) v
+-1.0*x1 >= v
+x1 = 1
+x1 >= 0
+
+II problem:
+(min) v
+-1.0*y1 <= v
+y1 = 1
+y1 >= 0
+--------------------------------------------------
+
+Solution for the first problem (min -v) using Fourier-Motzkin elimination method:
+Removing constraint >=
+VAR is in: [1, Inf)
+
+Solution:  1
+
+
+Solution for the second problem (min v) using Fourier-Motzkin elimination method:
+Removing constraint >=
+VAR is in: [-1, Inf)
+
+Solution:  -1

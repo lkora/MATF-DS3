@@ -3,7 +3,6 @@ from os import path
 from collections import deque
 import numpy as np
 
-# TODO: FIX POTENTIAL METHOD!!!
 
 # Prints a bar
 def print_split():
@@ -164,124 +163,124 @@ def add_dummy(costs, supply, demand):
     return costs, supply, demand
 
 
-# def create_a_graph(tmp):
-#     graph = {}
-#     for i in range(tmp.shape[0]):
-#         for j in range(tmp.shape[1]):
-#             if tmp[i][j] != 0:
-#                 # For an even number just look at the neighbours in the column
-#                 if tmp[i][j] % 2 == 0:
-#                     col_neighbours = [(k * 10 + j) for k in range(tmp.shape[0]) if tmp[k][j] != 0 and k != i]
-#                     graph[i * 10 + j] = col_neighbours
+def create_a_graph(tmp):
+    graph = {}
+    for i in range(tmp.shape[0]):
+        for j in range(tmp.shape[1]):
+            if tmp[i][j] != 0:
+                # For an even number just look at the neighbours in the column
+                if tmp[i][j] % 2 == 0:
+                    col_neighbours = [(k * 10 + j) for k in range(tmp.shape[0]) if tmp[k][j] != 0 and k != i]
+                    graph[i * 10 + j] = col_neighbours
 
-#                 # For an odd number just look at the neighbours in row
-#                 else:
-#                     row_neighbours = [(i * 10 + k) for k in range(tmp.shape[1]) if tmp[i][k] != 0 and k != j]
-#                     graph[i * 10 + j] = row_neighbours
+                # For an odd number just look at the neighbours in row
+                else:
+                    row_neighbours = [(i * 10 + k) for k in range(tmp.shape[1]) if tmp[i][k] != 0 and k != j]
+                    graph[i * 10 + j] = row_neighbours
 
-#     return graph
+    return graph
 
 
-# def search(graph, start, finish):
-#     visited = {start: None}
-#     queue = deque([start])
-#     while queue:
-#         vertex = queue.popleft()
-#         if vertex == finish:
-#             walk = []
-#             while vertex is not None:
-#                 walk.append(vertex)
-#                 vertex = visited[vertex]
-#             return walk[::-1]
-#         for neighbouring in graph[vertex]:
-#             if neighbouring not in visited:
-#                 visited[neighbouring] = vertex
-#                 queue.append(neighbouring)
+def search(graph, start, finish):
+    visited = {start: None}
+    queue = deque([start])
+    while queue:
+        vertex = queue.popleft()
+        if vertex == finish:
+            walk = []
+            while vertex is not None:
+                walk.append(vertex)
+                vertex = visited[vertex]
+            return walk[::-1]
+        for neighbouring in graph[vertex]:
+            if neighbouring not in visited:
+                visited[neighbouring] = vertex
+                queue.append(neighbouring)
 
-# def find_cycle(most_negative_row, most_negative_col, potential_matrix):
-#     tmp = np.zeros(potential_matrix.mat_c.shape)
-#     tmp[most_negative_row][most_negative_col] = 1
-#     potential_matrix.mat_c[most_negative_row][most_negative_col] = 0
-#     marked = 1
+def find_cycle(most_negative_row, most_negative_col, potential_matrix):
+    tmp = np.zeros(potential_matrix.mat_c.shape)
+    tmp[most_negative_row][most_negative_col] = 1
+    potential_matrix.mat_c[most_negative_row][most_negative_col] = 0
+    marked = 1
 
-#     while 1:
+    while 1:
 
-#         # Neparan pa idemo po vrstama
-#         if marked % 2 != 0:
+        # Neparan pa idemo po vrstama
+        if marked % 2 != 0:
 
-#             base_row = np.where(tmp == marked)[0]
-#             if np.size(base_row) == 0:
-#                 break
+            base_row = np.where(tmp == marked)[0]
+            if np.size(base_row) == 0:
+                break
 
-#             for i in base_row:
+            for i in base_row:
 
-#                 base = np.where(potential_matrix.mat_c[i] != float('-inf'))[0]
-#                 for j in base:
+                base = np.where(potential_matrix.mat_c[i] != float('-inf'))[0]
+                for j in base:
 
-#                     if tmp[i][j] == 0:
-#                         tmp[i][j] = marked + 1
+                    if tmp[i][j] == 0:
+                        tmp[i][j] = marked + 1
 
-#         # Paran pa idemo po kolonama
-#         else:
+        # Paran pa idemo po kolonama
+        else:
 
-#             base_cols = np.where(tmp == marked)[1]
-#             if np.size(base_cols) == 0:
-#                 break
+            base_cols = np.where(tmp == marked)[1]
+            if np.size(base_cols) == 0:
+                break
 
-#             for j in base_cols:
-#                 base = np.where(potential_matrix.mat_c[:, j] != float('-inf'))[0]
+            for j in base_cols:
+                base = np.where(potential_matrix.mat_c[:, j] != float('-inf'))[0]
 
-#                 for t in base:
-#                     if tmp[t][j] == 0:
-#                         tmp[t][j] = marked + 1
+                for t in base:
+                    if tmp[t][j] == 0:
+                        tmp[t][j] = marked + 1
 
-#         marked += 1
+        marked += 1
 
-#     # Pravimo listu povezanosti
-#     graph = create_a_graph(tmp)
-#     start = most_negative_row * 10 + most_negative_col
+    # Pravimo listu povezanosti
+    graph = create_a_graph(tmp)
+    start = most_negative_row * 10 + most_negative_col
 
-#     # Pronalazimo krajnji cvor koji ima za potomka koreni cvor
-#     finish = 0
-#     for i in graph:
-#         for j in graph[i]:
-#             if j == start:
-#                 finish = i
+    # Pronalazimo krajnji cvor koji ima za potomka koreni cvor
+    finish = 0
+    for i in graph:
+        for j in graph[i]:
+            if j == start:
+                finish = i
 
-#     positions = search(graph, start, finish)
+    positions = search(graph, start, finish)
 
-#     sign = -1
-#     theta = np.zeros((tmp.shape[0], tmp.shape[1]))
+    sign = -1
+    theta = np.zeros((tmp.shape[0], tmp.shape[1]))
 
-#     for position in positions:
-#         sign *= -1
-#         i = int(position / 10)
-#         j = position % 10
-#         theta[i][j] = sign
+    for position in positions:
+        sign *= -1
+        i = int(position / 10)
+        j = position % 10
+        theta[i][j] = sign
 
-#     theta[most_negative_row][most_negative_col] = 1
-#     print("theta, cikl:\n", theta)
+    theta[most_negative_row][most_negative_col] = 1
+    print("theta, cikl:\n", theta)
 
-#     # Finding minimal theta
-#     pot_min = np.array([])
-#     possible_indexes = np.array([])
-#     vrste, kolone = np.where(theta == -1)
+    # Finding minimal theta
+    pot_min = np.array([])
+    possible_indexes = np.array([])
+    vrste, kolone = np.where(theta == -1)
 
-#     for i, j in zip(vrste, kolone):
-#         pot_min = np.append(pot_min, potential_matrix.mat_c[i][j])
-#         possible_indexes = np.append(possible_indexes, i * 10 + j)
+    for i, j in zip(vrste, kolone):
+        pot_min = np.append(pot_min, potential_matrix.mat_c[i][j])
+        possible_indexes = np.append(possible_indexes, i * 10 + j)
 
-#     theta_row = min(pot_min)
-#     print("Theta min:" + str(theta_row))
-#     index = np.where(pot_min == theta_row)[0][0]
+    theta_row = min(pot_min)
+    print("Theta min:" + str(theta_row))
+    index = np.where(pot_min == theta_row)[0][0]
 
-#     potential_matrix.mat_c = potential_matrix.mat_c + theta * theta_row
-#     v = int(possible_indexes[index] / 10)
-#     k = int(possible_indexes[index] % 10)
-#     potential_matrix.mat_c[v][k] = float('-inf')
+    potential_matrix.mat_c = potential_matrix.mat_c + theta * theta_row
+    v = int(possible_indexes[index] / 10)
+    k = int(possible_indexes[index] % 10)
+    potential_matrix.mat_c[v][k] = float('-inf')
 
-#     print("Nova matrica potencijala:\n", potential_matrix.mat_c)
-#     return potential_matrix.mat_c
+    print("Nova matrica potencijala:\n", potential_matrix.mat_c)
+    return potential_matrix.mat_c
 
 
 
