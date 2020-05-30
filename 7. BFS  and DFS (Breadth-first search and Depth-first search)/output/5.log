@@ -1,0 +1,18 @@
+---- NOTE ----
+The file must be in the following format:
+u/d X			Where u - Undirected graph or d - Directed graph, X - Starting node
+N0 N1
+N1 N3
+N0 N3
+....
+.... Where the direction is: 
+first -> second (N0 -> N1 for directed)
+
+--------------------------------------------------
+
+Enter the file name: Starting from the node:  1
+Directed graph.
+BFS: 1 2 4 3 0 
+DFS: 1 2 3 0 4 
+--------------------------------------------------
+

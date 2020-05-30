@@ -114,7 +114,11 @@ def main():
             g.add_edge(edges[i][0], edges[i][1])
             g.add_edge(edges[i][1], edges[i][0])
     
-    print("Starting from the node: ")
+    print("Starting from the node: ", start)
+    if direction == True:
+        print("Directed graph.")
+    else:
+        print("Undirected graph.")
     print("BFS:", end = " ") 
     g.BFS(start)
     print()
