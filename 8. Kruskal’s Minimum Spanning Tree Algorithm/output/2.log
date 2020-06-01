@@ -1,0 +1,22 @@
+---- NOTE ----
+The file must be in the following format:
+u/d X			X - Number of nodes
+N0 N1
+N1 N3
+N0 N3
+....
+....
+
+--------------------------------------------------
+
+Enter the file name: 2.txt
+Minimal spanning tree from the graph: 
+0 -- 3 == 5
+2 -- 4 == 5
+3 -- 5 == 6
+0 -- 1 == 7
+1 -- 4 == 7
+4 -- 6 == 9
+
+--------------------------------------------------
+
