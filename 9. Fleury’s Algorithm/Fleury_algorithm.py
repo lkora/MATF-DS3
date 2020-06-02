@@ -2,6 +2,8 @@ from collections import defaultdict
 import os.path
 from os import path
 
+# FIX : FIX B BEHAVIOUR OF THE FUNCTION WITH DIRECTED GRAPHS
+
 # Prints a bar
 def print_split():
     print("\n--------------------------------------------------\n")
