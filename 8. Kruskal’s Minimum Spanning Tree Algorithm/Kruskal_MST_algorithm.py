@@ -1,4 +1,3 @@
-from collections import defaultdict 
 import os.path
 from os import path
 
@@ -102,7 +101,7 @@ class Graph:
 
 		print ("Minimal spanning tree from the graph: ")
 		for p, c, weight in result: 
-			print (str(p) + " -- " + str(c) + " == " + str(weight))
+			print (str(p) + " -- " + str(c) + ", weight(" + str(weight) + ")")
 
 def main():
 	graph, no_nodes = input_graph()

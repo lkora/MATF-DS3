@@ -1,0 +1,21 @@
+---- NOTE ----
+The file must be in the following format:
+X u/d			Where p - Undirected graph or d - Directed graph, X - Starting node
+N0 N1
+N1 N3
+N0 N3
+....
+.... Where the direction is: 
+first -> second (N0 -> N1 for directed)
+
+--------------------------------------------------
+
+Enter the file name: Undirected graph.
+
+--------------------------------------------------
+
+Graph has Euler path 
+
+0-6 6-7 7-4 4-5 5-7 7-8 8-4 4-10 10-9 9-3 3-2 2-1 
+--------------------------------------------------
+

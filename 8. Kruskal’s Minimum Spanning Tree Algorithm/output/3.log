@@ -1,6 +1,6 @@
 ---- NOTE ----
 The file must be in the following format:
-u/d X			X - Number of nodes
+X			X - Number of nodes
 N0 N1
 N1 N3
 N0 N3
@@ -11,9 +11,9 @@ N0 N3
 
 Enter the file name: 3.txt
 Minimal spanning tree from the graph: 
-2 -- 3 == 4
-0 -- 3 == 5
-0 -- 1 == 10
+2 -- 3, weight(4)
+0 -- 3, weight(5)
+0 -- 1, weight(10)
 
 --------------------------------------------------
 
