@@ -74,7 +74,7 @@ class Graph:
 		# This array is filled by BFS and to store path
 		parent = [-1] * (self.size)
 
-		max_flow = 0 # There is no flow initially
+		max_flow = 0
 
 		# Augment the flow while there is path from source to sink
 		while self.BFS(source, sink, parent):
