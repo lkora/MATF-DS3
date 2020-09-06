@@ -1,0 +1,145 @@
+Select one of the possible opions:
+	(1) Two-Phase simplex method
+	(2) Dual simplex method
+Option: --------------------------------------------------
+
+Select the type of input:
+	1: Manual input
+	2: Input from file
+Selected: --------------------------------------------------
+
+---- NOTE ----
+Enter the relative path to the file, from under "/examples/" 
+e.g. For file 1.txt, write "1.txt", that will load "/examples/1.txt"
+--------------------------------------------------
+
+---- NOTE ----
+The file must be in the following format:
+N M				Where N - number of equations and M - number of variables
+"min" or "max"			Objective function minimisation or maximisation
+c1 c2 c3 ... cM
+A11 A12 ... A1M _ b1
+A21 A22 ... A2M _ b2
+................
+AN1 AN2 ... ANM _ bN
+				Where '_' should be '<', '>' or '='
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+Enter the file name: c:
+ [7. 4. 1. 0. 0. 0.]
+A:
+ [[-2.  1.  1.  1.  0.  0.]
+ [-1. -2. -1.  0.  1.  0.]
+ [ 1. -1.  2.  0.  0.  1.]]
+b:
+ [-0.0, -3.0, -4.0]
+F:
+ 0
+Iteration 0:
+
+Step 1: Is b >= 0?
+b(1) is negative, proceeding to Step 2...
+--------------------------------------------------
+
+Step 2: Is A(1) >= 0?
+A(1, 0) is negative, proceeding to Step 3...
+--------------------------------------------------
+
+Finding a maximum c(j) / A(1, j) such that A(1, j) < 0
+Pivot: A(1, 2)
+--------------------------------------------------
+
+c:
+ [6. 2. 0. 0. 1. 0.]
+A:
+ [[-3. -1.  0.  1.  1.  0.]
+ [ 1.  2.  1. -0. -1. -0.]
+ [-1. -5.  0.  0.  2.  1.]]
+b:
+ [-3.0, 3.0, -10.0]
+F:
+ -3.0
+Iteration 1:
+
+Step 1: Is b >= 0?
+b(0) is negative, proceeding to Step 2...
+--------------------------------------------------
+
+Step 2: Is A(0) >= 0?
+A(0, 0) is negative, proceeding to Step 3...
+--------------------------------------------------
+
+Finding a maximum c(j) / A(0, j) such that A(0, j) < 0
+Pivot: A(0, 0)
+--------------------------------------------------
+
+c:
+ [0. 0. 0. 2. 3. 0.]
+A:
+ [[ 1.     0.333 -0.    -0.333 -0.333 -0.   ]
+ [ 0.     1.667  1.     0.333 -0.667  0.   ]
+ [ 0.    -4.667  0.    -0.333  1.667  1.   ]]
+b:
+ [1.0, 2.0, -9.0]
+F:
+ -9.0
+Iteration 2:
+
+Step 1: Is b >= 0?
+b(2) is negative, proceeding to Step 2...
+--------------------------------------------------
+
+Step 2: Is A(2) >= 0?
+A(2, 1) is negative, proceeding to Step 3...
+--------------------------------------------------
+
+Finding a maximum c(j) / A(2, j) such that A(2, j) < 0
+Pivot: A(2, 1)
+--------------------------------------------------
+
+c:
+ [0. 0. 0. 2. 3. 0.]
+A:
+ [[ 1.     0.     0.    -0.357 -0.214  0.071]
+ [ 0.     0.     1.     0.214 -0.071  0.357]
+ [-0.     1.    -0.     0.071 -0.357 -0.214]]
+b:
+ [0.3571428571428572, -1.214285714285714, 1.9285714285714284]
+F:
+ -9.0
+Iteration 3:
+
+Step 1: Is b >= 0?
+b(1) is negative, proceeding to Step 2...
+--------------------------------------------------
+
+Step 2: Is A(1) >= 0?
+A(1, 4) is negative, proceeding to Step 3...
+--------------------------------------------------
+
+Finding a maximum c(j) / A(1, j) such that A(1, j) < 0
+Pivot: A(1, 4)
+--------------------------------------------------
+
+c:
+ [ 0.  0. 42. 11.  0. 15.]
+A:
+ [[  1.   0.  -3.  -1.   0.  -1.]
+ [ -0.  -0. -14.  -3.   1.  -5.]
+ [ -0.   1.  -5.  -1.   0.  -2.]]
+b:
+ [3.9999999999999947, 16.999999999999975, 7.999999999999991]
+F:
+ -59.99999999999993
+Iteration 4:
+
+Step 1: Is b >= 0?
+Opimal value has been found!
+Optimal value: 
+minf = -60.0
+maxf = 60.0

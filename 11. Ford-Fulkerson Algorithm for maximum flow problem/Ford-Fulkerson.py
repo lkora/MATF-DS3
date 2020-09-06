@@ -2,14 +2,13 @@ from collections import defaultdict
 import os.path
 from os import path
 import numpy as np
-from collections import defaultdict 
 
 # Prints a bar
 def print_split():
     print("\n--------------------------------------------------\n")
 
 def input_problem():
-    print("---- NOTE ----\nThe file must be in the following format:\nsource sink\nN0 N1\nN1 N3\nN0 N3\n....\n....")
+    print("---- NOTE ----\nThe file must be in the following format:\nsource\tsink\t\t\t\t|| For a problem with n nodes, adjacency matrix:\nA00\tA01\tA02\t...\tA0(n-1)\nA10\tA11\tA12\t...\tA1(n-1)\nA20\tA21\tA22\t...\tA2(n-1)\n...............\nA(n-1)0\tA(n-1)1\tA(n-1)2\t...\tA(n-1)(n-1)")
     print_split()
     file_name = input("Enter the file name: ")
     # Creating absolute path to the file in folder examples

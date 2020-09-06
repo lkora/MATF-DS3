@@ -1,0 +1,50 @@
+Select one of the possible opions:
+	(1) Two-Phase simplex method
+	(2) Dual simplex method
+Option: --------------------------------------------------
+
+Select the type of input:
+	1: Manual input
+	2: Input from file
+Selected: --------------------------------------------------
+
+---- NOTE ----
+Enter the relative path to the file, from under "/examples/" 
+e.g. For file 1.txt, write "1.txt", that will load "/examples/1.txt"
+--------------------------------------------------
+
+---- NOTE ----
+The file must be in the following format:
+N M				Where N - number of equations and M - number of variables
+"min" or "max"			Objective function minimisation or maximisation
+c1 c2 c3 ... cM
+A11 A12 ... A1M _ b1
+A21 A22 ... A2M _ b2
+................
+AN1 AN2 ... ANM _ bN
+				Where '_' should be '<', '>' or '='
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+Enter the file name: Converting max to min.
+c:
+ [-0. -0. -1.  0.  0.  0.]
+A:
+ [[ 3.  4.  1.  1.  0.  0.]
+ [-1.  0.  1.  0.  1.  0.]
+ [ 0. -1.  1.  0.  0.  1.]]
+b:
+ [25.0, 5.0, 5.0]
+F:
+ 0
+Iteration 0:
+
+Step 1: Is b >= 0?
+Opimal value has been found!
+Optimal value: 
+minf = 0
+maxf = 0

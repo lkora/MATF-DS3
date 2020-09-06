@@ -9,7 +9,7 @@ def print_split():
 
 
 def input_problem():
-    print("---- NOTE ----\nThe file must be in the following format:\nn MAX\t\t\tWhere n - number of items  MAX - Maximum allowed price\nW0 W1 W2 W3 ... Wn\nP0 P1 P2 P3 ... Pn")
+    print("---- NOTE ----\nThe file must be in the following format:\nn MAX\t\t\tWhere n - number of items  MAX - Maximum allowed weight\nW0 W1 W2 W3 ... Wn\nP0 P1 P2 P3 ... Pn")
     print_split()
     file_name = input("Enter the file name: ")
     # Creating absolute path to the file in folder examples

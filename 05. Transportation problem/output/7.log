@@ -1,0 +1,116 @@
+Select the type of input:
+	1: Manual input
+	2: Input from file
+Selected: --------------------------------------------------
+
+---- NOTE ----
+Enter the relative path to the file, from under "/examples/" 
+e.g. For file 1.txt, write "1.txt", that will load "/examples/1.txt"
+--------------------------------------------------
+
+---- NOTE ----
+The input must be in the following format:
+N M				Where N - number of supply constraints and M - number of demand constraints
+A11 A12 ... A1M s1
+A21 A22 ... A2M system
+................
+AN1 AN2 ... ANM sN
+d1 d2 d3 ... dM
+--------------------------------------------------
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+Enter the file name: 
+
+     6      3      8      4   3500
+     1      7      2      5   6500
+     2      4      3      7   6000
+   500    500    500    500   4000
+  4200   5800   2600   7400 
+--------------------------------------------------
+
+  -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Matrices after Least Cost Method:
+
+     6      3      8      4      0
+     1      7      2      5      0
+     2      4      3      7      0
+   500    500    500    500      0
+     0      0      0      0 
+--------------------------------------------------
+
+  -inf  3500.0   -inf   -inf   -inf
+ 4200.0   -inf  2300.0   -inf   -inf
+  -inf  2300.0  300.0  3400.0   -inf
+  -inf   -inf   -inf  4000.0   -inf
+  -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Iteration: 1
+  -inf  3500.0   -inf   -inf   -inf
+ 4200.0   -inf  2300.0   -inf   -inf
+  -inf  2300.0  300.0  3400.0    0.0
+  -inf   -inf   -inf  4000.0   -inf
+  -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Matrices after update:
+
+     6      3      8      4      0
+     1      7      2      5      0
+     2      4      3      7      0
+   500    500    500    500      0
+     0      0      0      0 
+--------------------------------------------------
+
+  -inf  3500.0   -inf   -inf   -1.0
+ 4200.0   -inf  2300.0   -inf   -1.0
+  -inf  2300.0  300.0  3400.0    0.0
+  -inf   -inf   -inf  4000.0  493.0
+   2.0    4.0    3.0    7.0 
+--------------------------------------------------
+
+Theta, cycle:
+ [[ 0. -1.  0.  1.]
+ [ 0.  0.  0.  0.]
+ [ 0.  1.  0. -1.]
+ [ 0.  0.  0.  0.]]
+Theta min: 3400.0
+New matrix potential:
+ [[ -inf  100.  -inf 3400.]
+ [4200.  -inf 2300.  -inf]
+ [ -inf 5700.  300.  -inf]
+ [ -inf  -inf  -inf 4000.]]
+Iteration: 2
+  -inf  100.0   -inf  3400.0    0.0
+ 4200.0   -inf  2300.0   -inf   -inf
+  -inf  5700.0  300.0   -inf   -inf
+  -inf   -inf   -inf  4000.0   -inf
+  -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Matrices after update:
+
+     6      3      8      4      0
+     1      7      2      5      0
+     2      4      3      7      0
+   500    500    500    500      0
+     0      0      0      0 
+--------------------------------------------------
+
+  -inf  100.0   -inf  3400.0    0.0
+ 4200.0   -inf  2300.0   -inf    0.0
+  -inf  5700.0  300.0   -inf    1.0
+  -inf   -inf   -inf  4000.0  496.0
+   1.0    3.0    2.0    4.0 
+--------------------------------------------------
+
+Optimal solution: 46400.0

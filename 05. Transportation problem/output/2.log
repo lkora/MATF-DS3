@@ -1,0 +1,128 @@
+Select the type of input:
+	1: Manual input
+	2: Input from file
+Selected: --------------------------------------------------
+
+---- NOTE ----
+Enter the relative path to the file, from under "/examples/" 
+e.g. For file 1.txt, write "1.txt", that will load "/examples/1.txt"
+--------------------------------------------------
+
+---- NOTE ----
+The input must be in the following format:
+N M				Where N - number of supply constraints and M - number of demand constraints
+A11 A12 ... A1M s1
+A21 A22 ... A2M system
+................
+AN1 AN2 ... ANM sN
+d1 d2 d3 ... dM
+--------------------------------------------------
+
+--------------------------------------------------
+
+--------------------------------------------------
+
+Enter the file name: 
+
+     3      9      8     10      4     28
+     6     10      3      2      3     13
+     3      2      7     10      3     19
+     3      2      3      2      8     18
+   500    500    500    500    500     14
+    24     16     10     20     22 
+--------------------------------------------------
+
+  -inf   -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf   -inf
+  -inf   -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Matrices after Least Cost Method:
+
+     3      9      8     10      4      0
+     6     10      3      2      3      0
+     3      2      7     10      3      0
+     3      2      3      2      8      0
+   500    500    500    500    500      0
+     0      0      0      0      0 
+--------------------------------------------------
+
+  24.0   -inf   -inf   -inf    4.0   -inf
+  -inf   -inf   -inf   13.0   -inf   -inf
+  -inf   16.0   -inf   -inf    3.0   -inf
+  -inf   -inf   10.0    7.0    1.0   -inf
+  -inf   -inf   -inf   -inf   14.0   -inf
+  -inf   -inf   -inf   -inf   -inf 
+--------------------------------------------------
+
+Iteration: 1
+  24.0   -inf   -inf   -inf    4.0   -inf
+  -inf   -inf   -inf   13.0   -inf   -inf
+  -inf   16.0   -inf   -inf    3.0   -inf
+  -inf   -inf   10.0    7.0    1.0   -inf
+  -inf   -inf   -inf   -inf   14.0   -inf
+  -inf   -inf   -inf   -inf    0.0 
+--------------------------------------------------
+
+Matrices after update:
+
+     3      9      8     10      4      0
+     6     10      3      2      3      0
+     3      2      7     10      3      0
+     3      2      3      2      8      0
+   500    500    500    500    500      0
+     0      0      0      0      0 
+--------------------------------------------------
+
+  24.0   -inf   -inf   -inf    4.0    4.0
+  -inf   -inf   -inf   13.0   -inf    8.0
+  -inf   16.0   -inf   -inf    3.0    3.0
+  -inf   -inf   10.0    7.0    1.0    8.0
+  -inf   -inf   -inf   -inf   14.0  500.0
+  -1.0   -1.0   -5.0   -6.0    0.0 
+--------------------------------------------------
+
+Theta, cycle:
+ [[ 0.  0.  0.  0.  0.]
+ [ 0.  0.  0. -1.  1.]
+ [ 0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  1. -1.]
+ [ 0.  0.  0.  0.  0.]]
+Theta min: 1.0
+New matrix potential:
+ [[ 24. -inf -inf -inf   4.]
+ [-inf -inf -inf  12.   1.]
+ [-inf  16. -inf -inf   3.]
+ [-inf -inf  10.   8. -inf]
+ [-inf -inf -inf -inf  14.]]
+Iteration: 2
+  24.0   -inf   -inf   -inf    4.0   -inf
+  -inf   -inf   -inf   12.0    1.0   -inf
+  -inf   16.0   -inf   -inf    3.0   -inf
+  -inf   -inf   10.0    8.0   -inf   -inf
+  -inf   -inf   -inf   -inf   14.0   -inf
+  -inf   -inf   -inf   -inf    0.0 
+--------------------------------------------------
+
+Matrices after update:
+
+     3      9      8     10      4      0
+     6     10      3      2      3      0
+     3      2      7     10      3      0
+     3      2      3      2      8      0
+   500    500    500    500    500      0
+     0      0      0      0      0 
+--------------------------------------------------
+
+  24.0   -inf   -inf   -inf    4.0    4.0
+  -inf   -inf   -inf   12.0    1.0    3.0
+  -inf   16.0   -inf   -inf    3.0    3.0
+  -inf   -inf   10.0    8.0   -inf    3.0
+  -inf   -inf   -inf   -inf   14.0  500.0
+  -1.0   -1.0    0.0   -1.0    0.0 
+--------------------------------------------------
+
+Optimal solution: 202.0

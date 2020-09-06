@@ -1,0 +1,12 @@
+---- NOTE ----
+The file must be in the following format:
+n MAX			Where n - number of items  MAX - Maximum allowed weight
+W0 W1 W2 W3 ... Wn
+P0 P1 P2 P3 ... Pn
+
+--------------------------------------------------
+
+Enter the file name: 
+--------------------------------------------------
+
+Maximal basket value:  220.0

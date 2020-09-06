@@ -1,0 +1,12 @@
+---- NOTE ----
+The file must be in the following format:
+source	sink				|| For a problem with n nodes, adjacency matrix:
+A00	A01	A02	...	A0(n-1)
+A10	A11	A12	...	A1(n-1)
+A20	A21	A22	...	A2(n-1)
+...............
+A(n-1)0	A(n-1)1	A(n-1)2	...	A(n-1)(n-1)
+
+--------------------------------------------------
+
+Enter the file name: The maximum possible flow is 5 
