@@ -5,6 +5,8 @@ Homework for the subject "Discrete Structures 3" on University of Belgrade, Facu
 
 # Running the algorithms
 
+- adding new solutions
+
 - Installation:
 	1. Python3.7+
 	2. Libraries/Dependencies:
