@@ -3,10 +3,6 @@ from os import path
 import numpy as np
 
 
-
-# TODO: MAKE MIN TO MAX CONVERSION.
-
-
 # Prints a bar
 def print_split():
     print("--------------------------------------------------\n")
@@ -294,6 +290,7 @@ def main():
     print("Select one of the possible opions:\n\t(1) Calculate intervals (input: matrix A, vector b)\n\t(2) Check if a vertex is in solution (input: matrix A, vector b, vertex x\n\t(3) Furie-Mockin method of elimination (input: vector c, matrix A, vector b)")
     option = int(input("Option: "))
 
+
     if option == 1:
         n, m, A, b = input_option_1()
         
@@ -365,7 +362,7 @@ def main():
             print("Solution: ", round(interval[0], 3))
         else:
             print("The solution doesn't exist!\n")
-    
+            
     else:
         print("Enter a valid option!")
         return -1
