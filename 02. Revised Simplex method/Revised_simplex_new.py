@@ -1,8 +1,8 @@
 import numpy as np
 from random import seed
 from random import randrange
-from bin.input import *
-from bin.print import *
+from bin.input import input_vars
+from bin.printing import *
 
 precision = 0.0001
 
@@ -320,6 +320,7 @@ def main():
     np.set_printoptions(precision = 3)
 
     A, c, b = input_vars()
+    
     print("Solving system(canonical form): Ax = b")
     print_current(A, b, c)
     print_split()
@@ -329,7 +330,8 @@ def main():
     # Q - other column indexes
     # Fo - base value of F where F = Fo + c*x
     # x - solution
-    P, Q, Fo = set_canonical_matrix(A, b, c)
+    # P, Q, Fo = set_canonical_matrix(A, b, c)
+    P, Q, Fo = initial_solution(A, b)
 
     print("Set unit matrix:")
     print_current(A, b, c)

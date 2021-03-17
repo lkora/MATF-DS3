@@ -2,10 +2,10 @@ import os.path
 from os import path
 import sys
 import numpy as np
-from print import *
+from .printing import print_split
 
 def input_vars():    
-    option = 0
+    option = 2
     while option != 1 or option != 2:
         if option == 1:
             print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n  for x1, x2, x3, ... xM >= 0\t\tWhere '_' should be '<', '>' or '='\n")

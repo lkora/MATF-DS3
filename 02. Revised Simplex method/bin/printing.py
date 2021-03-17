@@ -1,5 +1,3 @@
-import numpy as np
-
 # Prints current vectors A, b, c
 def print_current(A, b, c):
     print("c:\n", c)
@@ -13,4 +11,3 @@ def print_current(A, b, c):
 # Prints a bar
 def print_split():
     print("--------------------------------------------------\n")
-
