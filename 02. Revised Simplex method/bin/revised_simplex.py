@@ -17,16 +17,16 @@ def find_index(coefs, s):
 
 def revised_simplex(s):
     # Pre solution enumeration
-    s.x = np.array(list(map(int, np.append(np.zeros((1, s.br_kolona - len(s.P))), s.matricaB))))
+    s.x = np.array(list(map(int, np.append(np.zeros((1, s.m - len(s.P))), s.B))))
     print("Starting solution:", s.x)
 
     iteration = 1
     while iteration < 100:
         print("Iteration :", iteration)
-        matB = s.matricaA[:, s.P]
-        matN = s.matricaA[:, s.Q]
-        coefsB_in_fun = s.koefs_problema[s.P]
-        coefsN_in_fun = s.koefs_problema[s.Q]
+        matB = s.A[:, s.P]
+        matN = s.A[:, s.Q]
+        coefsB_in_fun = s.c[s.P]
+        coefsN_in_fun = s.c[s.Q]
         print("matB:\n", matB)
         print("matN:\n", matN)
 
@@ -40,14 +40,14 @@ def revised_simplex(s):
         if check_condition(CN_prim):
             print("\nx optimum:", s.x)
 
-            print("Final f:", np.sum(s.koefs_problema * s.x))
+            print("Final f:", np.sum(s.c * s.x))
             exit()
 
         j = find_index(CN_prim, s)
         print("j:", j)
 
-        #print(matB, "\n", s.matricaA[:, [j]])
-        y_res = np.linalg.solve(matB, s.matricaA[:, [j]])
+        #print(matB, "\n", s.A[:, [j]])
+        y_res = np.linalg.solve(matB, s.A[:, [j]])
         print("System solution for y:\n", y_res)
 
         # Unbounded problem check
