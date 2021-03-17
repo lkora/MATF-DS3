@@ -2,13 +2,13 @@ import os.path
 from os import path
 import sys
 import numpy as np
-from .printing import print_split
+from .print_ import print_split
 
 def input_vars():    
     option = 2
     while option != 1 or option != 2:
         if option == 1:
-            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n  for x1, x2, x3, ... xM >= 0\t\tWhere '_' should be '<', '>' or '='\n")
+            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n  for x1, x2, x3, ... xM >= 0\t\tWhere '_' should be '<=', '>=' or '='\n")
             print_split()
 
             n = int(input("Input the number of equations: "))
@@ -31,11 +31,12 @@ def input_vars():
             for c in tmp:
                 in_c[i] = float(c)
                 i += 1
+            '''            
             # Converting the Objective function to minimise since the program is made with minimisation
             if otype == "max":
                 print("Converting max to min.")
                 in_c *= -1
-
+            '''
             sign = np.empty(n, dtype=str)
             # Inputing the variables and solutions to the arrays 
             for i in range(n):
@@ -45,8 +46,8 @@ def input_vars():
                     in_A[i, j] = float(tmp[j])
                 sign[i] = tmp[m]
                 in_b[i] = float(tmp[m + 1])
-
-                # No transformation required, since this program works with "<"
+            '''
+                # No transformation required, since this program works with "<="
                 # And "=" can be represented both as ">=" and "<="
                 if sign[i] == "=":
                     continue
@@ -74,7 +75,7 @@ def input_vars():
 
                 # Append 0 to the Objective function to make it the right dimension
                 in_c = np.append(in_c, 0)
-
+            '''
             print_split()
 
             break
@@ -82,7 +83,7 @@ def input_vars():
         elif option == 2:
             print("---- NOTE ----\nEnter the relative path to the file, from under \"/examples/\" \ne.g. For file 1.txt, write \"1.txt\", that will load \"/examples/1.txt\"")
             print_split()
-            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n  for x1, x2, x3, ... xM >= 0\t\tWhere '_' should be '<', '>' or '='\n")
+            print("---- NOTE ----\nThe input must be in the following format:\nN M\t\t\t\tWhere N - number of equations and M - number of variables\n\"min\" or \"max\"\t\t\tObjective function minimisation or maximisation\nc1 c2 c3 ... cM\nA11 A12 ... A1M _ b1\nA21 A22 ... A2M _ b2\n................\nAN1 AN2 ... ANM _ bN\n  for x1, x2, x3, ... xM >= 0\t\tWhere '_' should be '<=', '>=' or '='\n")
             print_split()
             print_split()
             print_split()
@@ -114,10 +115,12 @@ def input_vars():
                 if i == 2:
                     in_c = np.append(in_c, [float(x) for x in next(f).split()])     # Reads the Objective functiom
             
+            '''
             # Converting the Objective function to minimise since the program is made with minimisation
             if otype == "max":
                 print("Converting max to min.")
                 in_c *= -1
+            '''
 
             tmp_array = []
             for line in f:  # Read the next lines
@@ -137,7 +140,7 @@ def input_vars():
                         sign.append(tmp_array[i][j])
                     elif j == (m + 1):
                         in_b.append(float(tmp_array[i][j]))
-                
+            '''    
                 # No transformation required, since this program works with "<"
                 # And "=" can be represented both as ">=" and "<="
                 if sign[i] == "=":
@@ -149,11 +152,11 @@ def input_vars():
                     for j in range(i*m, in_A_length, 1):
                         in_A[j] *= -1
                     in_b[i] *= -1
-
+            '''
             # Converting the final list to numpy array
             in_A = np.array(in_A)
             in_A = in_A.reshape(n, m)
-
+            '''
             # Add new variables to convert inequation to equation:
             #     x1 + x2 + x3 + ... + xn <= c
             # =>  x1 + x2 + x3 + ... + xn + x = c
@@ -171,11 +174,11 @@ def input_vars():
 
                 # Append 0 to the Objective function to make it the right dimension
                 in_c = np.append(in_c, 0)
-
+            '''
             break
                     
         else:
             option = int(input("Select the type of input:\n\t1: Manual input\n\t2: Input from file\nSelected: "))
             print_split()
 
-    return in_A, in_c, in_b
+    return n, m, otype, in_c, in_A, sign, in_b
