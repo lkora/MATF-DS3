@@ -15,15 +15,16 @@ def find_index(coefs, s):
             return s.Q[i]
 
 
-def revised_simplex(s):
+def revised_simplex_with_ETA(s):
     # Pre solution enumeration
     s.x = np.array(list(map(int, np.append(np.zeros((1, s.m - len(s.P))), s.B))))
     print("Starting solution:", s.x)
 
+    matB = s.A[:, s.P]
+    
     iteration = 1
     while iteration < 100:
         print("Iteration :", iteration)
-        matB = s.A[:, s.P]
         matN = s.A[:, s.Q]
         coefsB_in_fun = s.c[s.P]
         coefsN_in_fun = s.c[s.Q]
@@ -39,12 +40,11 @@ def revised_simplex(s):
         # If all coefficients are positive the solution has been found
         if check_condition(CN_prim):
             print("\nx optimum:", s.x)
-
             print("Final f:", np.sum(s.c * s.x))
             exit()
 
         j = find_index(CN_prim, s)
-        print("j:", j)
+        print("j: ", j)
 
         #print(matB, "\n", s.A[:, [j]])
         y_res = np.linalg.solve(matB, s.A[:, [j]])
@@ -64,7 +64,7 @@ def revised_simplex(s):
             value = np.array([])
             tmp = 0
             for i in s.P:
-                if y_res[tmp] > 0.00001:
+                if y_res[tmp] > 0:
                     value = np.append(value, s.x[i] / y_res[tmp])
                 tmp += 1
 
@@ -72,14 +72,16 @@ def revised_simplex(s):
             print("t cap:", t_cap)
 
             x_new = np.zeros(len(s.x))
-            tmp = 0
 
             for i in range(len(s.x)):
                 if i == j:
                     x_new[i] = t_cap
                 elif i in s.P:
-                    x_new[i] = s.x[i] - t_cap * y_res[tmp]
-                    tmp += 1
+                    p = -1 
+                    for d in range(len(s.P)):
+                        if i == s.P[d]:
+                            p = d
+                    x_new[i] = s.x[i] - t_cap * y_res[p]
                 elif i in s.Q:
                     x_new[i] = 0
 
@@ -104,11 +106,23 @@ def revised_simplex(s):
                 raise "Error, one of the indexes j or l has not been found!"
 
             # Creating new P and Q
-            P_old = s.P
-            s.P = np.delete(s.P, l_index)
-            s.P = np.sort(np.append(s.P, s.Q[j_index]))
-            s.Q = np.delete(s.Q, j_index)
-            s.Q = np.sort(np.append(s.Q, P_old[l_index]))
+            P_old = np.copy(s.P)
+            s.P[l_index] = s.Q[j_index]
+            s.Q[j_index] = P_old[l_index]
             print("New P, Q", s.P, s.Q)
+
+            # Creating ETA matrix
+            E = np.identity(len(s.P))
+            m_new = y_res
+            leftEnd = E[:, :l_index]
+            rightEnd = E[:, l_index+1:]
+            leftEnd = np.append(leftEnd, m_new, axis=1)
+            leftEnd = np.append(leftEnd, rightEnd, axis=1)
+            E = leftEnd
+            print("Matrix E:\n", E)
+
+            # Creating new B matrix like B*E
+            matB = np.dot(matB, E)
+
 
             iteration += 1
