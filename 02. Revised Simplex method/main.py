@@ -3,7 +3,7 @@ from bin.input import input_vars
 from bin.revised_simplex import revised_simplex
 from bin.canonical_form import make_canonical_form
 
-# TODO CHECK FOR CANONICAL MATRIX IN THE BEGINING
+# FIX: Equality handling
 def main():
     np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 

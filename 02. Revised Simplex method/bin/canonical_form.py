@@ -1,10 +1,10 @@
 import numpy as np
 
-# Funkcija za svodjenje na kanonski oblik
+# Function for cannonical matrix reduction
 def make_canonical_form(s):
     j = s.m
 
-    # Prebacujemo u problem nalazenja minimuma
+    # Transofrimng the problem into finding a minimum
     if s.problem == "max":
         s.problem = "min"
         s.c *= (-1)
