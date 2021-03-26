@@ -40,7 +40,7 @@ def revised_simplex_with_ETA(s):
         # If all coefficients are positive the solution has been found
         if check_condition(CN_prim):
             print("\nx optimum:", s.x)
-            print("Final f:", np.sum(s.c * s.x))
+            print("Final f min:", np.sum(s.c * s.x))
             exit()
 
         j = find_index(CN_prim, s)
