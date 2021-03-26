@@ -9,9 +9,9 @@ def make_canonical_form(s):
         s.problem = "min"
         s.c *= (-1)
 
-    for i in range(s.m):
-        s.Q = np.append(s.Q, i)
+    s.Q = np.array(range(0, s.m))
 
+    has_equation = False
     # Transforming inequations to equations, and b >= 0
     for i in range(s.n):
         if s.sign_array[i] != "=":
@@ -30,7 +30,20 @@ def make_canonical_form(s):
             s.m += 1          # Changed number of columns
             s.P = np.append(s.P, j)
             j += 1
+        else:
+            has_equation = True
+
+    # If all are =
+    if has_equation:
+        b_index = 0
+        for b_index in range(s.m-1, 0, -1):
+            if s.A[0][b_index] != 0:
+                break
+        s.P = np.array(range(b_index, s.m))
+        s.Q = np.array(range(0, b_index))
+
 
     s.Q = np.array(list(map(int, s.Q)))
     s.P = np.array(list(map(int, s.P)))
-    s.c = np.append(s.c, np.zeros((1, len(s.P))))
+    if not has_equation:
+        s.c = np.append(s.c, np.zeros((1, len(s.P))))
