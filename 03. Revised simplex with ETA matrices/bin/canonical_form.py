@@ -34,13 +34,21 @@ def make_canonical_form(s):
             has_equation = True
 
     # If all are =
+    # Making P and Q
     if has_equation:
         b_index = 0
         for b_index in range(s.m-1, 0, -1):
             if s.A[0][b_index] != 0:
+                s.P = np.array(range(b_index, s.m))
+                s.Q = np.array(range(0, b_index))
                 break
-        s.P = np.array(range(b_index, s.m))
-        s.Q = np.array(range(0, b_index))
+        if b_index == s.m-1:
+            for b_index in range(0, s.m):
+                if s.A[s.n-1][b_index] != 0:
+                    b_index += 1
+                    s.P = np.array(range(0, b_index))
+                    s.Q = np.array(range(b_index, s.m))
+                    break
 
 
     s.Q = np.array(list(map(int, s.Q)))
