@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.optimize as sc
 from .print_ import *
 
 # Helper function for checking the parameter condition
@@ -126,3 +127,34 @@ def revised_simplex_with_ETA(s):
 
 
             iteration += 1
+
+def revised_simplex_with_ETA_new(s):
+    B_equ = []
+    A_equ = []
+    B_ieq = []
+    A_ieq = []
+    if s.problem == 'max':
+        s.c *= -1
+        s.problem = 'min'
+
+    i = 0
+    for sign in s.sign_array:
+        if sign == '=':
+            A_equ.append(s.A[i])
+            B_equ.append(s.B[i])
+        elif sign == '<=':
+            A_ieq.append(s.A[i])
+            B_ieq.append(s.B[i])
+        else:
+            A_ieq.append(-s.A[i])
+            A_ieq.append(-s.B[i])
+            sign = '<='
+        i += 1
+
+    if len(A_equ) == 0:
+        A_equ = None
+        B_equ = None
+    elif len(A_ieq) == 0:
+        A_ieq = None
+        B_ieq = None
+    return sc.linprog(s.c, A_ub=A_ieq, b_ub=B_ieq, A_eq=A_equ, b_eq=B_equ, method='revised simplex')

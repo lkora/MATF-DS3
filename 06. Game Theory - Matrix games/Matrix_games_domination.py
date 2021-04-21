@@ -1,6 +1,13 @@
 import os.path
 from os import path
 import numpy as np
+from scipy.optimize import linprog
+import nashpy as na
+
+from bin.two_phase_simplex import *
+from bin.classes.class_system import *
+from bin.make_standardized_form import make_standardized_form
+from bin.two_phase_simplex import *
 
 np.set_printoptions(suppress=True, precision=3)
 
@@ -83,29 +90,85 @@ def input_vars():
 
     return in_A, n, m
 
-def print_lp_problem(game):
+def form_lp_problems(game, dominated):
     n = len(game)
     m = len(game[0])
     
+    # Getting the dominated indexes for printing
+    dominated_row_index = []
+    dominated_column_index = []
+    i = 0
+    for dom in dominated['row']:
+        if not dom:
+            dominated_row_index.append(i)
+        i += 1
+    i = 0
+    for dom in dominated['col']:
+        if not dom:
+            dominated_column_index.append(i)
+        i += 1
     print_split()
+    
+    # Writing the max problem
     print("I problem:\n(min) -v = (max) v")
+    i = 0
     for i in range(n):
+        dom_i = 0
         for j in range(m):
-            print(str(game[i, j]) + "*x" + str(j+1), end="")
+            print(str(game[i, j]) + "*x" + str(dominated_column_index[dom_i]+1), end="")
             if j < m-1:
                 print(" + ", end="")
+            dom_i += 1
         print(" >= v")
-    for i in range(n):
+        i += 1
+
+    len_ = 0
+    for i in dominated_column_index:
         print("x" + str(i+1), end="")    
-        if i != n-1:
+        if len_ < len(dominated_column_index)-1:
             print(" + ", end="")
+        len_ += 1
     print(" = 1")
-    for i in range(n):
+    len_ = 0
+    for i in dominated_column_index:
         print("x" + str(i+1), end="")    
-        if i != n-1:
+        if len_ < len(dominated_column_index)-1:
             print(", ", end="")
+        len_ += 1
     print(" >= 0\n")
 
+
+    # Printing and writing the min problem
+    print("II problem:\n(min) v")
+    i = 0
+    for i in range(m):
+        dom_i = 0
+        for j in range(n):
+            print(str(game[j, i]) + "*y" + str(dominated_row_index[dom_i]+1), end="")
+            if j < m-1:
+                print(" + ", end="")
+            dom_i += 1
+        print(" <= v")
+        i += 1
+
+    len_ = 0
+    for i in dominated_row_index:
+        print("y" + str(i+1), end="")    
+        if len_ < len(dominated_row_index)-1:
+            print(" + ", end="")
+        len_ += 1
+    print(" = 1")
+    len_ = 0
+    for i in dominated_row_index:
+        print("y" + str(i+1), end="")    
+        if len_ < len(dominated_row_index)-1:
+            print(", ", end="")
+        len_ += 1
+    print(" >= 0\n")
+    
+
+    return dominated_row_index, dominated_column_index
+'''
     print("II problem:\n(min) v")
     for i in range(m):
         for j in range(n):
@@ -123,7 +186,7 @@ def print_lp_problem(game):
         if i != m-1:
             print(", ", end="")
     print(" >= 0")
-
+'''
     # print_split()
 
 
@@ -183,10 +246,16 @@ def form_problem_for_fmm(game):
     
 
     # Putting it to an object and preparing to return
-    p1 = FMM_Problem(n1, m1, "min", tmp_c1, tmp_A1, tmp_b1)
-    p2 = FMM_Problem(n2, m2, "min", tmp_c2, tmp_A2, tmp_b2)
+    sign_array = ['>=' for _ in range(len(tmp_A1))]
+    sign_array.append('=')
+    s1 = System((n1, m1, "max", tmp_c1, tmp_A1, sign_array, tmp_b1))
 
-    return p1, p2
+    sign_array = ['<=' for _ in range(len(tmp_A2))]
+    sign_array.append('=')
+    s2 = System((n2, m2, "min", tmp_c2, tmp_A2, sign_array, tmp_b2))
+
+
+    return s1, s2
 
 
 def domination(game_matrix):
@@ -283,7 +352,7 @@ def domination(game_matrix):
                 l += 1
         k += 1
 
-    return updated_game
+    return updated_game, {'row':row_removed, 'col':col_removed}
 
 def interval_intersection(A, b):
     n = len(b)
@@ -455,30 +524,132 @@ def Fourier_Motzkin_elimination(n, m, otype, c, A, b):
     # print_split()
     if interval[0] < interval[1]:
         print("Solution: ", round(interval[0], 3))
+        return interval[0]
     else:
         print("The solution doesn't exist!\n")
+        return np.nan
 
 def main():
     game, n, m = input_vars()
     print("Initial game matrix problem:\n", game)
-    game = domination(game)
+    
+
+    game_og = game
+    # Domination check
+    game, dominated = domination(game)
     print("Game matrix after removing the dominated rows and columns:\n", game)
-    print_lp_problem(game)
+    dom_row, dom_col = form_lp_problems(game, dominated)
     if len(game) == 1 and len(game[0]) == 1:
+        print("Game solution: ", round(game[0, 0], 3))
+        
+        # Solve again for equilibrium
+        sol = na.Game(game_og)
+        equilibria = sol.vertex_enumeration()
+        for eq in equilibria:
+            print(f"Row player: {eq[0]}")
+            print(f"Column player: {eq[1]}")
+
         print_split()
-        print("Solution: ", round(game[0, 0], 3))
         return 0
+
     print_split()
+
+    # Get solution
     p1, p2 = form_problem_for_fmm(game)
-    p1.otype = "min"
+    p1.otype = "max"
     p2.otype = "min"
+
+    s = System((p2.n, p2.m, p2.otype, p2.c, p2.A, p2.sign_array, p2.B))
+    sol1, points1 = two_phase_simplex(s)
+    points1.pop(0)
+    if sol1 == np.nan:
+        # no solution, we stop
+        print("No solution found!")
+        return 0
+    s = System((p1.n, p1.m, p1.otype, p1.c, p1.A, p1.sign_array, p1.B))
+    sol2, points2 = two_phase_simplex(s)
+    points2.pop(0)
+    if sol2 == np.nan:
+        # no solution, we stop
+        print("No solution found!")
+        return 0
+        
+    if abs(sol1) > abs(sol2):
+        sol = sol1
+    else:
+        sol = sol2
+    print(f"Game solution {sol}")
+
+
+    # Solve again for equilibrium
+    sol = na.Game(game_og)
+    equilibria = sol.vertex_enumeration()
+    for eq in equilibria:
+        print(f"Row player: {eq[0]}")
+        print(f"Column player: {eq[1]}")
+
+
+    
+    print_split()
+    # p1, p2 = form_problem_for_fmm(game)
+    # p1.otype = "max"
+    # p2.otype = "min"
     # print("Solution for the first problem (min -v) using Fourier-Motzkin elimination method:")
     # Fourier_Motzkin_elimination(p1.n, p1.m, p1.otype, p1.c, p1.A, p1.b)
     # print("\n")
     # print("Solution for the second problem (min v) using Fourier-Motzkin elimination method:")
-    Fourier_Motzkin_elimination(p2.n, p2.m, p2.otype, p2.c, p2.A, p2.b)
+    
+    # Zamenjena funkcija a dvofazni simplex  -----------
+    # sol = Fourier_Motzkin_elimination(p2.n, p2.m, p2.otype, p2.c, p2.A, p2.b)
+    
+
+    # Novo resenje sa dvofaznim simpleksom, nije optimalno
+    # n, m, otype, in_c, in_A, sign, in_b
+    # p2.n = n
+    # p2.m = m
+    # p2.otype = problem
+    # p2.c = c
+    # p2.A = A
+    # ---- = sign_array
+    # p2.b = B
+    
+    '''
+    s = System((p2.n, p2.m, p2.otype, p2.c, p2.A, p2.sign_array, p2.B))
+    sol1, points1 = two_phase_simplex(s)
+    points1.pop(0)
+    if sol1 == np.nan:
+        # no solution, we stop
+        print("No solution found!")
+        return 0
+    
+    
+    s = System((p1.n, p1.m, p1.otype, p1.c, p1.A, p1.sign_array, p1.B))
+    sol2, points2 = two_phase_simplex(s)
+    points2.pop(0)
+    if sol2 == np.nan:
+        # no solution, we stop
+        print("No solution found!")
+        return 0
+    '''
 
 
+    # print("Game solution: ", max(abs(sol1), abs(sol2)))
+    # tmp = []
+    # for i in range(n):
+    #     if i in dom_row:
+    #         tmp.append(points1[i-1])
+    #     else:
+    #         tmp.append(0)    
+    # print("Optimal strategy for x: ", tmp)
+    # tmp = []
+    # for i in range(m):
+    #     if i in dom_col:
+    #         tmp.append(points2[i-1])
+    #     else:
+    #         tmp.append(0)    
+    # print("Optimal strategy for y: ", tmp)
+
+ 
     return 0
 
 

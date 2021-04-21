@@ -2,9 +2,8 @@ import random
 import math
 import numpy as np
 
-def del_artifical_vars(table, B, W):
-    use_bland = True
-    print_steps = True
+def del_artifical_vars(table, B, W, print_steps=False, use_bland=True):
+    
     while len(W)!=0:
         # Removing aritficial variables:
         # If they are not in the base we cross them over
