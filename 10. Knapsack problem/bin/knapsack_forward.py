@@ -111,9 +111,16 @@ def knapsack_forward(c, A, b, Z):
     table[0][0] ='K\Y'
     indexes[0][0] ='I\Y'
 
-    write_table(table)
-    print()
-    write_table(indexes)
+    # Printing
+    # write_table(table)
+    # print()
+    # write_table(indexes)
+    print("Table:")
+    for i in table:
+        print(i)
+    print("Inexes:")
+    for i in indexes:
+        print(i)
 
     solution = [0] * n
     print()
@@ -121,7 +128,7 @@ def knapsack_forward(c, A, b, Z):
 
     for i in range(len(tmp)):
         if tmp[i]!=0:
-            solution.insert(i,tmp[i])
+            solution.insert(i, tmp[i])
             c.insert(i, pom_C[i])
             A.insert(i,tmp_A[i])
     print()
