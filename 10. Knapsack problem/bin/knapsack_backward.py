@@ -40,6 +40,16 @@ def reconstruct_backward(memo, i, j, A, c, solution):
     
     global Z_set
 
+
+    if i == 1:
+        if memo[i][j]!=0:
+            if Z_set:
+                solution[i-1] = j//A[i-1]
+            else:
+                solution[i-1] = 1
+        return
+
+
     k = 1
     if Z_set:
         k = j//A[i-1]
@@ -64,25 +74,25 @@ def knapsack_backward(c, A, b, Z):
 
     tmp = []
     tmp_A = [0] * len(A)
-    pom_C = [0] * len(c)
+    tmp_c = [0] * len(c)
 
     if Z_set:
-        tmp =[ math.inf if c[i]>0 and A[i]==0 else 0 for i in range(len(A)) ]
+        tmp = [math.inf if A[i]==0 else 0 for i in range(len(A))]
     else:
-        tmp =[ 1 if c[i]>0 and A[i]==0 else 0 for i in range(len(A)) ]
+        tmp = [1 if A[i]==0 else 0 for i in range(len(A))]
 
     print()
     for i in range(len(tmp)):
         if tmp[i]!=0:
             tmp_A[i] = A[i]
-            pom_C[i] = c[i]
+            tmp_c[i] = c[i]
             print('Variable x{} gets value {} because function has max'.format(i+1,tmp[i]))
     print()
     print('Solving knapsack BACKWARDS:')
     print()
 
-    c =[c for c,a in zip(c,A) if a!=0 ]
-    A =[a for a in A if a!=0]
+    c = [x for x,a in zip(c,A) if a!=0]
+    A = [a for a in A if a!=0]
     
     # Making memoization for easier calculation
     memo = [[-math.inf] * (j+2) for i in range(n+1)]
@@ -99,8 +109,8 @@ def knapsack_backward(c, A, b, Z):
         if Z_set:
             memo[1][i] = c[0]*((i-1)//A[0])
         else:
-            if i>=A[0]:
-                memo[1][i] = 1
+            if i>A[0]:
+                memo[1][i] = c[0]
             else:
                 memo[1][i]=0
     print()
@@ -116,13 +126,17 @@ def knapsack_backward(c, A, b, Z):
     for i in memo:
         print(i)
     
-    reconstruct_backward(memo, n, j+1,A , c, solution)
+    reconstruct_backward(memo, n, j+1, A, c, solution)
 
     for i in range(len(tmp)):
-        if tmp[i]!=0:
-            solution.insert(i,tmp[i])
+        if tmp[i]!=0 and tmp_c[i]>0:
+            solution.insert(i, tmp[i])
             A.insert(i,tmp_A[i])
-            c.insert(i,pom_C[i])
+            c.insert(i,tmp_c[i])
+        elif tmp[i]!=0:
+            solution.insert(i,0)
+            A.insert(i,tmp_A[i])
+            c.insert(i,tmp_c[i])
 
     print()
     print('Optimal arrangement is: {}'.format(solution))

@@ -10,21 +10,25 @@ def f_forward(table, i, j):
     return table[i][j+1]
 
 def reconstruct_forward(table, indexes, solution, A):
-    i = len(table) - 2
-    j = len(table[i]) - 2 
+    number_of_objects = len(table) - 1
+    weight = len(table[-1]) - 1
     global Z_set
-    while j > 0:
-        print('I{}({}) = {}'.format(len(table)-1,j, indexes[-1][j+1]))
+
+    while number_of_objects>0 and (weight-1)>0:
+        print('Current weight is: {} , the number of objects is: {}'.format(weight-1,number_of_objects))
+        print('Looking at I index{}({})'.format(number_of_objects,weight-1))
+        x = indexes[number_of_objects][weight]
+        if x!=0:
+            print('x{} Increasing'.format(x))
         if Z_set:
-            if indexes[-1][j+1]!=0:
-                solution[indexes[-1][j+1] - 1] += 1
+            if x!=0:
+                solution[x-1] += 1
         else:
-            if indexes[-1][j+1]!=0:
-                solution[indexes[-1][j+1] - 1] = 1
-        i = indexes[-1][j+1]
-        print('Weight of {} objecct is {}'.format(indexes[-1][j+1],A[i-1]))
-        j-= A[i-1]
-        
+            if x!=0:
+                solution[x-1] = 1
+        weight -= A[x-1]
+        if not Z_set:
+            number_of_objects =x-1
 
 
 def knapsack_forward(c, A, b, Z):
@@ -41,21 +45,21 @@ def knapsack_forward(c, A, b, Z):
     tmp_A = []
 
     if Z_set:
-        tmp =[ math.inf if c[i]>0 and A[i]==0 else 0 for i in range(len(A)) ]
+        tmp =[ math.inf if A[i]==0 else 0 for i in range(len(A)) ]
     else:
-        tmp =[ 1 if c[i]>0 and A[i]==0 else 0 for i in range(len(A)) ]
+        tmp =[ 1 if A[i]==0 else 0 for i in range(len(A)) ]
 
     tmp_A = [0] * len(A)
-    pom_C = [0] * len(c)
+    tmp_c = [0] * len(c)
 
     print()
     for i in range(len(tmp)):
         if tmp[i]!=0:
             tmp_A[i] = A[i] 
-            pom_C[i] = c[i]
+            tmp_c[i] = c[i]
             print('Variable x{} gets value {} because function has max'.format(i+1,tmp[i]))
 
-    c =[c for c,a in zip(c,A) if a!=0 ]
+    c =[x for x,a in zip(c, A) if a!=0 ]
     A =[a for a in A if a!=0]
 
     print()
@@ -126,11 +130,18 @@ def knapsack_forward(c, A, b, Z):
     print()
     reconstruct_forward(table,indexes,solution,A)
 
+
     for i in range(len(tmp)):
-        if tmp[i]!=0:
-            solution.insert(i, tmp[i])
-            c.insert(i, pom_C[i])
-            A.insert(i,tmp_A[i])
+        if tmp[i]!=0 and tmp_c[i]>0:
+            solution.insert(i,tmp[i])
+            c.insert(i, tmp_c[i])
+            A.insert(i, tmp_A[i])
+        elif tmp[i]!=0:
+            solution.insert(i, 0)
+            c.insert(i, tmp_c[i])
+            A.insert(i, tmp_A[i])
+
+
     print()
     print('Optimal arrangement is: {}'.format(solution))
 
