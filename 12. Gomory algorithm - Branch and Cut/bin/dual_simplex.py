@@ -1,20 +1,27 @@
+import math
+
 from .print_ import print_simplex_table
 
-decimal_space = 2
+decimal_space = 3
+use_lexicographical = False
 
-def dual_simplex(table,B):
+def dual_simplex(table, B):
     print()
     # We do dual simplex untill all variables become integers
     iteration = 0
     while not all(a[-1] >= 0 for a in table[:-1]):
-
         n_b = -1
         for i in range(len(table)-1):
             if table[i][-1] < 0:
                 n_b = i
                 break
         # Looking for pivoting index
-        ind = find_pivot(table,B,n_b)
+        ind = -1
+        if use_lexicographical:
+            ind = find_pivot(table, B, n_b)
+        else:
+            ind = find_pivot_old(table, B, n_b)
+
         print()
         print('Pivoting around the element A[{}][{}]: {}'.format(n_b,ind,round(table[n_b][ind],decimal_space)))
         old = table[n_b][ind]
@@ -59,7 +66,7 @@ def find_pivot(table, B, nb):
             tmp.append(None)
         
     if all(i==None for i in tmp):
-        print("No negative variables in the current row => no feasable solutions")
+        print("No negative variables in the current row => No feasable solutions!")
         quit()
     
     for i in range(len(tmp)):
@@ -69,10 +76,24 @@ def find_pivot(table, B, nb):
 
     for i in range(len(tmp)):
         if tmp[i]!=None: 
-            indexi = [j for j in range(len(tmp)) if j!=i and tmp[j]!=None]
-            if all(tmp[i] < tmp[j] for j in indexi ):
+            indexes = [j for j in range(len(tmp)) if j!=i and tmp[j]!=None]
+            if all(tmp[i] <= tmp[j] for j in indexes):
                 ind = i
                 break
 
     return ind
 
+def find_pivot_old(table, B, n_b):
+    m = -math.inf
+    ind = -1
+
+    for i in range(len(table[n_b])-1):
+        if table[n_b][i]<0 and table[-1][i]/table[n_b][i] > m:
+            m = table[-1][i]/table[n_b][i]
+            ind = i
+
+    if ind==-1:
+        print('No negative variables in current row! => No feasable solutions!')
+        quit()
+    print("Pivoting around element", ind)
+    return ind

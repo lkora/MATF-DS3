@@ -8,9 +8,9 @@ from ..table_simplex import table_simplex
 decimal_space = 2
 
 def fraction_part(a):
-    if a>=0:
+    if a >= 0:
         return abs(a) - math.floor(abs(a))
-    else :
+    else:
         b = abs(a)
         b = math.ceil(b)
         return b - abs(a)
@@ -55,7 +55,7 @@ class LinearProblem:
         # If <= we add +s
         # If >= we add -s
         # if >= and b is 0, we multiply by -1 and add +s
-        S =[]
+        S = []
         for i in range(len(self.b)):
             # For all others that are not in the row we add 0
             if self.b[i][0] != '=':
@@ -189,10 +189,12 @@ class LinearProblem:
     def add_solution(self, table, B):
         ind = -1
 
+        m = -math.inf
+
         for i in range(len(table)):
-            if round(table[i][-1],decimal_space).is_integer() == False:
+            if fraction_part(round(table[i][-1], decimal_space)) > m:
                 ind = i
-                break
+                m = fraction_part(round(table[i][-1], decimal_space))
             
         if ind == -1:
             print('Did not find a non integer row')
@@ -229,15 +231,15 @@ class LinearProblem:
         while not all( round(row[-1],decimal_space).is_integer() for row in table ):
             # print(colorow('+++++++++++++++++++++++++++++++++++++++++++++++++','blue'))
             print("Solution is not an integer, we need to do a gomory cut:")
-            self.add_solution(table,B)
-            number_of_cuts +=1
+            self.add_solution(table, B)
+            number_of_cuts += 1
 
             print()
             print('After adding an inequality, we get a table:')
             print_simplex_table(table, B, [], [])
             print()
             print('Starting the dual simplex:')
-            table, B = dual_simplex(table,B)
+            table, B = dual_simplex(table, B)
 
         print()
         # print(colorow('+++++++++++++++++++++++++++++++++++++++++++++++++','blue'))

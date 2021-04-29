@@ -5,8 +5,6 @@ import numpy as np
 from bin.classes.class_system import LinearProblem
 from bin.input import input_vars
 
-
-
 def main():
     n, m, type_, c, A, sign, b = input_vars()
 
