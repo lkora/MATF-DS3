@@ -1,1 +1,0 @@
-# TODO: GOMORY'S CUT done accalerated on CUDA, due month, September
