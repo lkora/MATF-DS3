@@ -50,16 +50,23 @@ def branch_and_bound(s):
     # Solve
     status = solver.Solve()
     
+    f_opt = 0
+    x_opt = []
+
     # Print results
     if status == pywraplp.Solver.OPTIMAL:
-        print('Objective value =', solver.Objective().Value())
+        f_opt = solver.Objective().Value()
+        print('Objective value =', f_opt)
         for j in range(s.m):
             print(x[j].name(), ' = ', x[j].solution_value())   
+            x_opt.append(x[j].solution_value())
         print()
 
         print('Problem solved in %f milliseconds' % solver.wall_time())
         # print('Problem solved in %d iterations' % solver.iterations())
         # print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
     else:
-        print('The problem does not have an optimal solution.')
+        raise Exception('The problem does not have an optimal solution.')
     print_split()
+
+    return f_opt, x_opt
