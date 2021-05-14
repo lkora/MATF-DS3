@@ -1,6 +1,10 @@
-from collections import defaultdict 
+import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch 
+from collections import defaultdict, deque 
 import os.path
 from os import path
+import numpy as np
+import random
 
 # FIX : FIX B BEHAVIOUR OF THE FUNCTION WITH DIRECTED GRAPHS
 
@@ -10,7 +14,7 @@ def print_split():
 
 
 def input_graph():
-    print("---- NOTE ----\nThe file must be in the following format:\nX u/d\t\t\tWhere p - Undirected graph or d - Directed graph, X - Starting node\nN0 N1\nN1 N3\nN0 N3\n....\n.... Where the direction is: \nfirst -> second (N0 -> N1 for directed)")
+    print("---- NOTE ----\nThe file must be in the following format:\nX u/d\t\t\tWhere p - Undirected graph or d - Directed graph, X - Starting node\nN0 N1\nN1 N3\nN0 N3\n....\n.... Where the directed is: \nfirst -> second (N0 -> N1 for directed)")
     print_split()
     file_name = input("Enter the file name: ")
     # Creating absolute path to the file in folder examples
@@ -31,7 +35,7 @@ def input_graph():
     option = str(option[1])
     directed = False
     if option != 'u' and option != 'd':
-        print("Graph direction is invalid! Assuming directed graph")
+        print("Graph directed is invalid! Assuming directed graph")
         directed = True
     if option == 'd':
         directed = True   
@@ -45,11 +49,12 @@ def input_graph():
 
    
 #This class represents an undirected graph using adjacency list representation 
-class Graph: 
-   
+class Graph:
     def __init__(self, no_nodes): 
         self.no_nodes = no_nodes #No. of vertices 
         self.graph = defaultdict(list) # default dictionary to store graph 
+        self.path = []
+        self.coordinates = []
 
     # Function to add an edge to graph 
     def add_edge(self, p, c): 
@@ -144,9 +149,9 @@ class Graph:
         if res == 0: 
             print ("Graph is not Eulerian", end = " ")
         elif res == 1 : 
-            print ("Graph has Euler path", end = " ")
+            print ("Graph has an Euler path", end = " ")
         else: 
-            print ("Graph has Euler cycle", end = " ")
+            print ("Graph has an Euler cycle", end = " ")
 
 
     # The function to check if edge p-c can be considered as next edge in 
@@ -179,13 +184,15 @@ class Graph:
 
     # Print Euler tour starting from vertex p 
     def printEulerUtil(self, p): 
+        self.path.append(p)
         # Recur for all the vertices adjacent to this vertex 
         for c in self.graph[p]: 
             # If edge p-c is not removed and it's a a valid next edge 
             if self.isValidNextEdge(p, c): 
                 print(str(p) + "-" + str(c), end=" "), 
-                self.rmvEdge(p, c) 
-                self.printEulerUtil(c) 
+                self.rmvEdge(p, c)
+                self.printEulerUtil(c)
+                
 
 
         
@@ -204,11 +211,40 @@ class Graph:
         self.printEulerUtil(p) 
 
 
+    def pltPath(self):
+        n = self.no_nodes * 100
+
+        # Making random coordinates
+        for _ in range(self.no_nodes):
+            self.coordinates.append([random.randrange(1, n), random.randrange(1, n)])
+        # Make graph title
+        title = ""
+        for i in self.path:
+            title += str(i) + "  "
+
+        plt.title(title)
+        plt.axis([0, n, 0, n])
+        
+        # Make optimal path to array
+        for i in self.path:
+            plt.plot(self.coordinates[i][0], self.coordinates[i][1], 'r')
+            plt.annotate(str(i), self.coordinates[i])
+        
+        for i in range(len(self.path)-1):
+            x = self.coordinates[self.path[i]][0]
+            y = self.coordinates[self.path[i]][1]
+            nx = self.coordinates[self.path[i+1]][0]
+            ny = self.coordinates[self.path[i+1]][1]
+            # plt.plot([x, nx], [y, ny], 'r')            
+            plt.arrow(x, y, nx-x, ny-y, length_includes_head=True, head_width=10, head_length=20, fc='k', ec='k')
+        plt.show()
+
+
 def main():
-    edges, direction, no_nodes = input_graph()
+    edges, directed, no_nodes = input_graph()
     g = Graph(no_nodes)
     # Create graph, diracted/undirected
-    if direction == True:
+    if directed == True:
         for i in range(len(edges)):
             g.add_edge(edges[i][0], edges[i][1])
     else:
@@ -216,14 +252,15 @@ def main():
             g.add_edge(edges[i][0], edges[i][1])
             g.add_edge(edges[i][1], edges[i][0])
 
-    if direction == True:
+    if directed == True:
         print("Directed graph.")
     else:
         print("Undirected graph.")
 
     print_split()
     g.test()
-    g.printEulerTour() 
+    g.printEulerTour()
+    g.pltPath()
     print_split()
 
 if __name__ == '__main__':
