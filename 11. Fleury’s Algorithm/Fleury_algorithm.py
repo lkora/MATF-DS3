@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch 
-from collections import defaultdict, deque 
+from collections import defaultdict 
 import os.path
 from os import path
-import numpy as np
 import random
+import math
 
 # FIX : FIX B BEHAVIOUR OF THE FUNCTION WITH DIRECTED GRAPHS
 
@@ -212,11 +211,20 @@ class Graph:
 
 
     def pltPath(self):
-        n = self.no_nodes * 100
+        n = self.no_nodes * 10
 
         # Making random coordinates
+        # for _ in range(self.no_nodes):
+        #     self.coordinates.append([random.randrange(1, n), random.randrange(1, n)])
+        
         for _ in range(self.no_nodes):
-            self.coordinates.append([random.randrange(1, n), random.randrange(1, n)])
+            angle = random.uniform(0, 1) * (math.pi*2)
+            x = (n/2.5) * math.cos(angle) + n/2
+            y = (n/2.5) * math.sin(angle) + n/2
+            self.coordinates.append([x, y])
+            plt.plot(x, y, 'r.')
+
+        
         # Make graph title
         title = ""
         for i in self.path:
@@ -225,6 +233,7 @@ class Graph:
         plt.title(title)
         plt.axis([0, n, 0, n])
         
+
         # Make optimal path to array
         for i in self.path:
             plt.plot(self.coordinates[i][0], self.coordinates[i][1], 'r')
@@ -236,7 +245,7 @@ class Graph:
             nx = self.coordinates[self.path[i+1]][0]
             ny = self.coordinates[self.path[i+1]][1]
             # plt.plot([x, nx], [y, ny], 'r')            
-            plt.arrow(x, y, nx-x, ny-y, length_includes_head=True, head_width=10, head_length=20, fc='k', ec='k')
+            plt.arrow(x, y, nx-x, ny-y, length_includes_head=True, head_width=0.8, head_length=2, fc='k', ec='k')
         plt.show()
 
 
