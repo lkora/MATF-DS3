@@ -13,7 +13,7 @@ def print_split():
 
 
 def input_graph():
-    print("---- NOTE ----\nThe file must be in the following format:\nX u/d\t\t\tWhere p - Undirected graph or d - Directed graph, X - Starting node\nN0 N1\nN1 N3\nN0 N3\n....\n.... Where the directed is: \nfirst -> second (N0 -> N1 for directed)")
+    print("---- NOTE ----\nThe file must be in the following format:\nX u/d\t\t\tWhere u - Undirected graph or d - Directed graph, X - Starting node\nN0 N1\nN1 N3\nN0 N3\n....\n.... Where the directed is: \nfirst -> second (N0 -> N1 for directed)")
     print_split()
     file_name = input("Enter the file name: ")
     # Creating absolute path to the file in folder examples
