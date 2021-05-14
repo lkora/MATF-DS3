@@ -92,12 +92,12 @@ class Graph:
   
             # Stack may contain the same node twice, so we need to print the popped item only if it is not visited.  
             if not visited[current]:  
-                print(current, end = " ") 
+                print(current+1, end = " ") 
                 visited[current] = True 
   
             # Get all adjacent nodes of the popped current node. 
             # If an adjacent node has not been visited, then push it to the stack.  
-            for node in self.graph[current]:  
+            for node in reversed(self.graph[current]):  
                 if not visited[node]:  
                     stack.append(node)  
   
