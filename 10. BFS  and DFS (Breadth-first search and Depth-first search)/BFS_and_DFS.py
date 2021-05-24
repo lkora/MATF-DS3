@@ -70,7 +70,7 @@ class Graph:
             # If an adjacent node has not been visited, mark it visited and enqueue it 
             for node in self.graph[current]: 
                 if visited[node] == False: 
-                    queue.append(node) 
+                    queue.append(node)
                     visited[node] = True
 
 
