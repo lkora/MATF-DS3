@@ -38,6 +38,7 @@ class Graph:
 		self.graph = []
 		self.nodes = nodes
 		self.total = 0
+		
 	def add_edge(self, p, c, weight):
 		self.graph.append([p, c, weight])
     
