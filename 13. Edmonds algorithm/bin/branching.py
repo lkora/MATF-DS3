@@ -430,9 +430,18 @@ class Edmonds:
 
                 # Conditions for adding the edge.
                 # If weight < 0, then it cannot help in finding a maximum branching.
-                if self.style == "branching" and abs(weight) <= 0:
-                    acceptable = False
-                else:
+                # if self.style == "branching" and self.kind == "max" and weight <= 0:
+                #     acceptable = False
+                # elif self.style == "branching" and self.kind == "min" and weight >= 0:
+                #     acceptable = False
+                # else:
+                #     acceptable = True
+                # if self.style == "branching" and weight <= 0:
+                #     acceptable = False
+                # else:
+                #     acceptable = True
+                acceptable = False
+                if self.style == "branching":
                     acceptable = True
 
                 # print(f"Edge is acceptable: {acceptable}")
