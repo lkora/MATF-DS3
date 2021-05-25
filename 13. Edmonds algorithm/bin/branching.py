@@ -350,7 +350,6 @@ class Edmonds:
         self._init(attr, default, kind, style, preserve_attrs, seed)
         uf = self.uf
 
-        # This enormous while loop could use some refactoring...
 
         G, B = self.G, self.B
         D = set()
@@ -359,10 +358,7 @@ class Edmonds:
         G_pred = G.pred
 
         def desired_edge(v):
-            """
-            Find the edge directed toward v with maximal weight.
-
-            """
+            # Find the edge directed toward v with maximal weight.
             edge = None
             weight = -INF
             for u, _, key, data in G.in_edges(v, data=True, keys=True):
