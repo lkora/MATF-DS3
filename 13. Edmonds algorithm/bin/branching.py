@@ -440,9 +440,8 @@ class Edmonds:
                 #     acceptable = False
                 # else:
                 #     acceptable = True
-                acceptable = False
-                if self.style == "branching":
-                    acceptable = True
+                
+                acceptable = True
 
                 # print(f"Edge is acceptable: {acceptable}")
                 if acceptable:
