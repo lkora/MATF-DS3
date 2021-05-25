@@ -40,13 +40,24 @@ def input_problem():
 class Graph:
 	def __init__(self,graph):
 		self.graph = graph # residual graph
-		self.size = len(graph)		
+		self.org_graph = [i[:] for i in graph] 
+		self.ROW = len(graph)
+		self.COL = len(graph[0])	
+
+
+	# Function for Depth first search 
+	# Traversal of the graph
+	def DFS(self, graph, s, visited):
+		visited[s]=True
+		for i in range(len(graph)):
+			if graph[s][i]>0 and not visited[i]:
+				self.DFS(graph,i,visited)
 
 	# Returns true if there is a path from source 'source' to sink 'sink' in
 	# residual graph. Also fills parent[] to store the path
 	def BFS(self, source, sink, parent):
 		# Mark all the vertices as not visited
-		visited = [False] * (self.size)
+		visited = [False] * (self.ROW)
 		# Create a queue for BFS
 		queue = []
 		# Mark the source node as visited and enqueue it
@@ -59,7 +70,7 @@ class Graph:
 			# If a adjacent has not been visited, then mark it
 			# visited and enqueue it
 			for ind, val in enumerate(self.graph[u]):
-				if visited[ind] == False and val > 0 :
+				if visited[ind] == False and val > 0:
 					queue.append(ind)
 					visited[ind] = True
 					parent[ind] = u
@@ -71,7 +82,7 @@ class Graph:
 	# Returns tne maximum flow from source to sink in the given graph
 	def FordFulkerson(self, source, sink):
 		# This array is filled by BFS and to store path
-		parent = [-1] * (self.size)
+		parent = [-1] * (self.ROW)
 
 		max_flow = 0
 
@@ -81,10 +92,12 @@ class Graph:
 			path_flow = float("Inf")
 			s = sink
 			while(s != source):
-				path_flow = min (path_flow, self.graph[parent[s]][s])
-				s = parent[s]
+				path_flow = min (path_flow, self.graph[parent[s]][s]) 
+				s = parent[s] 
+
 			# Add path flow to overall flow
 			max_flow += path_flow
+
 			# Update residual capacities of the edges and reverse edges along the path
 			v = sink
 			while(v != source):
@@ -95,12 +108,26 @@ class Graph:
 
 		return max_flow
 
+	def minCut(self, source):
+		visited = len(self.graph)*[False]
+		self.DFS(self.graph, source, visited)
+
+		# print the edges which initially had weights 
+		# but now have 0 weight 
+		for i in range(self.ROW): 
+			for j in range(self.COL): 
+				if self.graph[i][j] == 0 and\
+				self.org_graph[i][j] > 0 and visited[i]: 
+					print(f"{i} --- {j}")
+
 
 def main():
 	source, sink, graph = input_problem()
 	g = Graph(graph) 
 	
 	print("The maximum possible flow is %d " % g.FordFulkerson(source, sink)) 
+	print("Min cut branches: ")
+	g.minCut(source)
 
 
 if __name__ == '__main__':

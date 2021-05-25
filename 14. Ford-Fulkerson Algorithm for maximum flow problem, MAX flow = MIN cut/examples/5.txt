@@ -1,0 +1,9 @@
+6
+s t
+s a 8
+s d 3
+a b 9
+d b 7
+d c 4
+c t 5
+b t 2

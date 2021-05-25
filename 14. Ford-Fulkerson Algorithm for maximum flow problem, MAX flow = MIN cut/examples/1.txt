@@ -1,0 +1,12 @@
+5
+s t
+s a 4
+s c 2
+a d 1
+a b 4
+c a 5
+c b 1
+c d 4
+b d 3
+b t 2
+d t 6
