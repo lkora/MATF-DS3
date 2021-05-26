@@ -116,15 +116,15 @@ def knapsack_forward(c, A, b, Z):
     indexes[0][0] ='I\Y'
 
     # Printing
-    # write_table(table)
-    # print()
-    # write_table(indexes)
-    print("Table:")
-    for i in table:
-        print(i)
-    print("Inexes:")
-    for i in indexes:
-        print(i)
+    write_table(table)
+    print()
+    write_table(indexes)
+    # print("Table:")
+    # for i in table:
+    #     print(i)
+    # print("Inexes:")
+    # for i in indexes:
+    #     print(i)
 
     solution = [0] * n
     print()

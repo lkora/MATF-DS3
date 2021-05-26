@@ -121,10 +121,10 @@ def knapsack_backward(c, A, b, Z):
     print('After calculating memoization:')
     print()
 
-    # write_table(memo)
-    print("Memo:")
-    for i in memo:
-        print(i)
+    write_table(memo)
+    # print("Memo:")
+    # for i in memo:
+    #     print(i)
     
     reconstruct_backward(memo, n, j+1, A, c, solution)
 
